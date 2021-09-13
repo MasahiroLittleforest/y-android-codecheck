@@ -18,9 +18,7 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import java.util.*
 
-class SearchViewModel(
-    private val context: Context
-) : ViewModel() {
+class SearchViewModel : ViewModel() {
 
     // 検索結果
     fun searchResults(inputText: String): List<GitHubRepository> = runBlocking {
@@ -55,7 +53,7 @@ class SearchViewModel(
                     GitHubRepository(
                         name = name,
                         ownerIconUrl = ownerIconUrl,
-                        language = context.getString(R.string.written_language, language),
+                        language = language,
                         stargazersCount = stargazersCount,
                         watchersCount = watchersCount,
                         forksCount = forksCount,
