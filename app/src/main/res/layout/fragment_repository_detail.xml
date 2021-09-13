@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="gitHubRepository"
+            type="jp.co.yumemi.android.code_check.model.GitHubRepository" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,24 +19,26 @@
             android:layout_height="0dp"
             android:layout_margin="16dp"
             android:contentDescription="@null"
-            android:src="@drawable/jetbrains"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_max="240dp" />
+            app:layout_constraintWidth_max="240dp"
+            app:ownerIconUrl="@{gitHubRepository.ownerIconUrl}"
+            tools:src="@drawable/jetbrains" />
 
         <TextView
             android:id="@+id/nameView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="JetBrains/kotlin"
+            android:text="@{gitHubRepository.name}"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ownerIconView" />
+            app:layout_constraintTop_toBottomOf="@id/ownerIconView"
+            tools:text="JetBrains/kotlin" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/centerGuid"
@@ -49,11 +53,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="Written in Kotlin"
+            android:text="@{@string/written_language(gitHubRepository.language)}"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/nameView"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:text="Written in Kotlin" />
 
         <TextView
             android:id="@+id/starsView"
@@ -61,13 +66,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="38530 stars"
+            android:text="@{@string/stars(gitHubRepository.stargazersCount)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/centerGuid"
-            app:layout_constraintTop_toBottomOf="@id/nameView" />
+            app:layout_constraintTop_toBottomOf="@id/nameView"
+            tools:text="38530 stars" />
 
         <TextView
             android:id="@+id/watchersView"
@@ -75,13 +81,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="38530 watchers"
+            android:text="@{@string/watchers(gitHubRepository.watchersCount)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/centerGuid"
-            app:layout_constraintTop_toBottomOf="@id/starsView" />
+            app:layout_constraintTop_toBottomOf="@id/starsView"
+            tools:text="38530 watchers" />
 
         <TextView
             android:id="@+id/forksView"
@@ -89,13 +96,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="4675 forks"
+            android:text="@{@string/forks(gitHubRepository.forksCount)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/centerGuid"
-            app:layout_constraintTop_toBottomOf="@id/watchersView" />
+            app:layout_constraintTop_toBottomOf="@id/watchersView"
+            tools:text="4675 forks" />
 
         <TextView
             android:id="@+id/openIssuesView"
@@ -103,13 +111,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="8dp"
-            android:text="131 open issues"
+            android:text="@{@string/open_issues(gitHubRepository.openIssuesCount)}"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/centerGuid"
-            app:layout_constraintTop_toBottomOf="@id/forksView" />
+            app:layout_constraintTop_toBottomOf="@id/forksView"
+            tools:text="131 open issues" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
