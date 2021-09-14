@@ -4,7 +4,10 @@
 package jp.co.yumemi.android.code_check
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
@@ -12,19 +15,35 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import jp.co.yumemi.android.code_check.MainActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.model.GitHubRepository
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.lang.Exception
 import java.util.*
 
 const val API_URL = "https://api.github.com"
 
+enum class ApiStatus {
+    LOADING,
+    ERROR,
+    DONE
+}
+
 class SearchViewModel : ViewModel() {
-    // 検索結果
-    fun searchResults(inputText: String): List<GitHubRepository> = runBlocking {
-        return@runBlocking GlobalScope.async {
+    private val _gitHubRepositories = MutableLiveData<List<GitHubRepository>>(listOf())
+
+    val gitHubRepositories: LiveData<List<GitHubRepository>>
+        get() = _gitHubRepositories
+
+    private val _apiStatus = MutableLiveData<ApiStatus>(ApiStatus.DONE)
+
+    val apiStatus: LiveData<ApiStatus>
+        get() = _apiStatus
+
+
+    suspend fun searchRepositories(inputText: String) {
+        viewModelScope.launch {
+            _apiStatus.value = ApiStatus.LOADING
+
             try {
                 val httpClient = HttpClient(Android)
                 val response: HttpResponse =
@@ -40,15 +59,14 @@ class SearchViewModel : ViewModel() {
 
                 val items = mutableListOf<GitHubRepository>()
 
-                /**
-                 * アイテムの個数分ループする
-                 */
                 for (i in 0 until jsonItems.length()) {
-                    val jsonItem = jsonItems.optJSONObject(i)!!
+                    val jsonItem = jsonItems.optJSONObject(i) ?: return@launch
 
                     val gitHubRepository = GitHubRepository(
                         name = jsonItem.optString("full_name"),
-                        ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url"),
+                        ownerIconUrl = (jsonItem.optJSONObject("owner") ?: return@launch).optString(
+                            "avatar_url"
+                        ),
                         language = jsonItem.optString("language"),
                         stargazersCount = jsonItem.optLong("stargazers_count"),
                         watchersCount = jsonItem.optLong("watchers_count"),
@@ -59,14 +77,21 @@ class SearchViewModel : ViewModel() {
                     items.add(gitHubRepository)
                 }
 
+                _gitHubRepositories.value = items.toList()
+
                 lastSearchDate = Date()
 
-                return@async items.toList()
+                _apiStatus.value = ApiStatus.DONE
             } catch (e: Exception) {
+                _apiStatus.value = ApiStatus.ERROR
                 Log.d("SearchViewModel", "${e.message}")
-                return@async listOf()
             }
-        }.await()
+        }
+    }
+
+    private fun reset() {
+        _gitHubRepositories.value = listOf<GitHubRepository>()
+        _apiStatus.value = ApiStatus.DONE
     }
 }
 
