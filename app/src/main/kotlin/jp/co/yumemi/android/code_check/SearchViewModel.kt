@@ -22,17 +22,18 @@ import java.util.*
 const val API_URL = "https://api.github.com"
 
 class SearchViewModel : ViewModel() {
-    private val httpClient = HttpClient(Android)
-
     // 検索結果
     fun searchResults(inputText: String): List<GitHubRepository> = runBlocking {
         return@runBlocking GlobalScope.async {
             try {
+                val httpClient = HttpClient(Android)
                 val response: HttpResponse =
                     httpClient.get("${API_URL}/search/repositories") {
                         header("Accept", "application/vnd.github.v3+json")
                         parameter("q", inputText)
                     }
+
+                httpClient.close()
 
                 val jsonBody = JSONObject(response.receive<String>())
                 val jsonItems = jsonBody.optJSONArray("items")
