@@ -1,6 +1,8 @@
 package jp.co.yumemi.android.code_check
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,4 +21,34 @@ fun bindOwnerIconImage(imgView: ImageView, imgUrl: String?) {
 fun bindReposRecyclerView(recyclerView: RecyclerView, repos: List<GitHubRepository>?) {
     val adapter = recyclerView.adapter as GitHubRepositoryAdapter
     adapter.submitList(repos)
+}
+
+@BindingAdapter("apiStatus")
+fun bindStatusToProgressBar(progressBar: ProgressBar, status: ApiStatus) {
+    when (status) {
+        ApiStatus.LOADING -> {
+            progressBar.visibility = View.VISIBLE
+        }
+        ApiStatus.ERROR -> {
+            progressBar.visibility = View.VISIBLE
+        }
+        ApiStatus.DONE -> {
+            progressBar.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("apiStatus")
+fun bindStatusToRecyclerView(recyclerView: RecyclerView, status: ApiStatus) {
+    when (status) {
+        ApiStatus.LOADING -> {
+            recyclerView.visibility = View.INVISIBLE
+        }
+        ApiStatus.ERROR -> {
+            recyclerView.visibility = View.INVISIBLE
+        }
+        ApiStatus.DONE -> {
+            recyclerView.visibility = View.VISIBLE
+        }
+    }
 }

@@ -22,15 +22,28 @@ import java.util.*
 
 const val API_URL = "https://api.github.com"
 
+enum class ApiStatus {
+    LOADING,
+    ERROR,
+    DONE
+}
+
 class SearchViewModel : ViewModel() {
     private val _gitHubRepositories = MutableLiveData<List<GitHubRepository>>(listOf())
 
     val gitHubRepositories: LiveData<List<GitHubRepository>>
         get() = _gitHubRepositories
 
+    private val _apiStatus = MutableLiveData<ApiStatus>(ApiStatus.DONE)
+
+    val apiStatus: LiveData<ApiStatus>
+        get() = _apiStatus
+
 
     suspend fun searchRepositories(inputText: String) {
         viewModelScope.launch {
+            _apiStatus.value = ApiStatus.LOADING
+
             try {
                 val httpClient = HttpClient(Android)
                 val response: HttpResponse =
@@ -67,10 +80,18 @@ class SearchViewModel : ViewModel() {
                 _gitHubRepositories.value = items.toList()
 
                 lastSearchDate = Date()
+
+                _apiStatus.value = ApiStatus.DONE
             } catch (e: Exception) {
+                _apiStatus.value = ApiStatus.ERROR
                 Log.d("SearchViewModel", "${e.message}")
             }
         }
+    }
+
+    private fun reset() {
+        _gitHubRepositories.value = listOf<GitHubRepository>()
+        _apiStatus.value = ApiStatus.DONE
     }
 }
 
