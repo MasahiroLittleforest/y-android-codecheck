@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import jp.co.yumemi.android.code_check.MainActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoryDetailBinding
-import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
 
 class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
     private val args: RepositoryDetailFragmentArgs by navArgs()
@@ -33,6 +32,6 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
 
         Log.d("検索した日時", lastSearchDate.toString())
 
-        binding.gitHubRepository = args.reposiotry
+        binding.gitHubRepository = args.repository
     }
 }
