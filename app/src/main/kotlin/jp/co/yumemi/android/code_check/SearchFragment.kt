@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import jp.co.yumemi.android.code_check.common.hideKeyboard
 import jp.co.yumemi.android.code_check.databinding.FragmentSearchBinding
 import jp.co.yumemi.android.code_check.model.GitHubRepository
 import kotlinx.coroutines.GlobalScope
@@ -52,6 +53,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     if (action == EditorInfo.IME_ACTION_SEARCH) {
                         GlobalScope.launch {
                             editText.text.toString().let {
+                                editText.hideKeyboard()
                                 searchViewModel.searchRepositories(it)
                             }
                         }
