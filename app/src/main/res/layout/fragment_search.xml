@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="jp.co.yumemi.android.code_check.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +21,7 @@
             android:layout_margin="12dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="8dp"
-            app:layout_constraintBottom_toTopOf="@id/recyclerView"
+            app:layout_constraintBottom_toTopOf="@id/repos_recycler_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -55,9 +57,10 @@
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/repos_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:gitHubRepositories="@{viewModel.gitHubRepositories}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
