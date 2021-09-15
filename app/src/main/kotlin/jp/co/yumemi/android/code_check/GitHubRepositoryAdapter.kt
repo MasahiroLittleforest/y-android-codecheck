@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import jp.co.yumemi.android.code_check.databinding.GithubRepositoryItemBinding
+import jp.co.yumemi.android.code_check.databinding.GithubReposListItemBinding
 import jp.co.yumemi.android.code_check.model.GitHubRepository
 
 class GitHubRepositoryAdapter(
@@ -28,7 +28,7 @@ class GitHubRepositoryAdapter(
         }
     }
 
-    class GitHubRepositoryViewHolder(private var binding: GithubRepositoryItemBinding) :
+    class GitHubRepositoryViewHolder(private var binding: GithubReposListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(repo: GitHubRepository) {
             binding.gitHubRepository = repo
@@ -42,7 +42,7 @@ class GitHubRepositoryAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GitHubRepositoryViewHolder {
         return GitHubRepositoryViewHolder(
-            GithubRepositoryItemBinding.inflate(
+            GithubReposListItemBinding.inflate(
                 LayoutInflater.from(parent.context)
             )
         )

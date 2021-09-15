@@ -88,10 +88,5 @@ class SearchViewModel : ViewModel() {
             }
         }
     }
-
-    private fun reset() {
-        _gitHubRepositories.value = listOf<GitHubRepository>()
-        _apiStatus.value = ApiStatus.DONE
-    }
 }
 
