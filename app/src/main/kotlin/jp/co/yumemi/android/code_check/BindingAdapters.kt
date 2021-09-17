@@ -1,8 +1,10 @@
 package jp.co.yumemi.android.code_check
 
+import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.annotation.ColorInt
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -51,4 +53,9 @@ fun bindStatusToRecyclerView(recyclerView: RecyclerView, status: ApiStatus) {
             recyclerView.visibility = View.VISIBLE
         }
     }
+}
+
+@BindingAdapter("languageColor")
+fun ImageView.setImageTint(@ColorInt color: Int) {
+    setColorFilter(color, PorterDuff.Mode.SRC_IN)
 }
