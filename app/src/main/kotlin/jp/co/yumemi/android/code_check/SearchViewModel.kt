@@ -40,7 +40,7 @@ class SearchViewModel : ViewModel() {
         get() = _apiStatus
 
 
-    suspend fun searchRepositories(inputText: String) {
+    fun searchRepositories(inputText: String) {
         viewModelScope.launch {
             _apiStatus.value = ApiStatus.LOADING
 
