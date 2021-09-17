@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui
 
 import android.graphics.PorterDuff
 import android.view.View
@@ -9,7 +9,9 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import jp.co.yumemi.android.code_check.ui.search.GitHubRepositoryAdapter
 import jp.co.yumemi.android.code_check.model.GitHubRepository
+import jp.co.yumemi.android.code_check.ui.search.ApiStatus
 
 @BindingAdapter("ownerIconUrl")
 fun bindOwnerIconImage(imgView: ImageView, imgUrl: String?) {
