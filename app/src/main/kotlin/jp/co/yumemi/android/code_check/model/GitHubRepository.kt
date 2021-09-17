@@ -10,7 +10,7 @@ data class ReposResponse(
 
 @Parcelize
 data class GitHubRepository(
-    val name: String,
+    @Json(name = "full_name") val name: String,
     val owner: RepositoryOwner,
     val language: String?,
     @Json(name = "stargazers_count") val stargazersCount: Long,
