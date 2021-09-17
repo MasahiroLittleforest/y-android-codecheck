@@ -56,7 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{@string/written_language(gitHubRepository.language)}"
+                android:text="@{gitHubRepository.language == null ? @string/written_language(@string/unknown) : @string/written_language(gitHubRepository.language)}"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"

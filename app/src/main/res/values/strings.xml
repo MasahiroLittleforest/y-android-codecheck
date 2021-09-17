@@ -6,4 +6,5 @@
     <string name="watchers">%s watchers</string>
     <string name="forks">%s forks</string>
     <string name="open_issues">%s open issues</string>
+    <string name="unknown">Unknown</string>
 </resources>
