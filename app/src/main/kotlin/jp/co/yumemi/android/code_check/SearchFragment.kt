@@ -4,10 +4,13 @@
 package jp.co.yumemi.android.code_check
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -48,25 +51,26 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding.apply {
             viewModel = searchViewModel
             lifecycleOwner = viewLifecycleOwner
-            searchInputText
-                .setOnEditorActionListener { editText, action, _ ->
-                    if (action == EditorInfo.IME_ACTION_SEARCH) {
-                        GlobalScope.launch {
-                            editText.text.toString().let {
-                                editText.hideKeyboard()
-                                searchViewModel.searchRepositories(it)
-                            }
-                        }
-                        return@setOnEditorActionListener true
-                    }
-                    return@setOnEditorActionListener false
-                }
+            searchInputText.setOnEditorActionListener { editText, action, _ ->
+                onQuerySubmit(editText, action)
+            }
             reposRecyclerView.also {
                 it.layoutManager = layoutManager
                 it.addItemDecoration(dividerItemDecoration)
                 it.adapter = adapter
             }
         }
+    }
+
+    private fun onQuerySubmit(editText: TextView, action: Any): Boolean {
+        if (action == EditorInfo.IME_ACTION_SEARCH) {
+            editText.text.toString().let {
+                editText.hideKeyboard()
+                searchViewModel.searchRepositories(it)
+            }
+            return true
+        }
+        return false
     }
 
     fun gotoRepositoryFragment(gitHubRepository: GitHubRepository) {
