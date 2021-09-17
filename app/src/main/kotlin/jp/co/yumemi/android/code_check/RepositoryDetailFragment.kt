@@ -3,7 +3,6 @@
  */
 package jp.co.yumemi.android.code_check
 
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,13 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import jp.co.yumemi.android.code_check.MainActivity.Companion.lastSearchDate
 import jp.co.yumemi.android.code_check.databinding.FragmentRepositoryDetailBinding
-import org.json.JSONObject
 
 class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
     private val args: RepositoryDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentRepositoryDetailBinding
-
-    var languageColor = Color.parseColor("#FF666666")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,28 +32,6 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
 
         Log.d("検索した日時", lastSearchDate.toString())
 
-        binding.apply {
-            gitHubRepository = args.repository
-            repositoryDetailFragment = this@RepositoryDetailFragment
-        }
-
-        args.repository.language?.let {
-            languageColor = getLanguageColor(it)
-        }
-    }
-
-    private fun getLanguageColor(languageName: String): Int {
-        val file = "colors.json"
-        val json = requireContext().assets.open(file).bufferedReader().use { it.readText() }
-        val jsonBody = JSONObject(json)
-        val jsonLanguage = jsonBody.optJSONObject(languageName)
-        val color = jsonLanguage.optString("color")
-
-        return Color.parseColor(makeOpaque(color))
-    }
-
-    private fun makeOpaque(colorString: String): String {
-        val color = colorString.split("#")[1]
-        return "#FF$color"
+        binding.gitHubRepository = args.repository
     }
 }
