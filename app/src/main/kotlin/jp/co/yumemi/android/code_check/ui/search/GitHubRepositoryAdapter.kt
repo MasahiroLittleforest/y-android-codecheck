@@ -28,7 +28,7 @@ class GitHubRepositoryAdapter(
         }
     }
 
-    class GitHubRepositoryViewHolder(private var binding: GithubReposListItemBinding) :
+    class GitHubRepositoryViewHolder(private val binding: GithubReposListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(repo: GitHubRepository) {
             binding.gitHubRepository = repo
