@@ -18,7 +18,9 @@ import org.json.JSONObject
 
 class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
     private val args: RepositoryDetailFragmentArgs by navArgs()
-    private lateinit var binding: FragmentRepositoryDetailBinding
+
+    private var _binding: FragmentRepositoryDetailBinding? = null
+    private val binding get() = _binding!!
 
     var languageColor = Color.parseColor("#FF666666")
 
@@ -26,9 +28,9 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val fragmentBinding = FragmentRepositoryDetailBinding.inflate(inflater, container, false)
-        binding = fragmentBinding
+        _binding = fragmentBinding
         return fragmentBinding.root
     }
 
@@ -45,6 +47,11 @@ class RepositoryDetailFragment : Fragment(R.layout.fragment_repository_detail) {
         args.repository.language?.let {
             languageColor = getLanguageColor(it)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun getLanguageColor(languageName: String): Int {
